@@ -2,7 +2,6 @@ package tuples
 
 import (
 	"math"
-	"reflect"
 )
 
 // TupleStruct data type
@@ -28,31 +27,69 @@ func Vector(x float64, y float64, z float64) TupleStruct {
 	return TupleStruct{x, y, z, 0}
 }
 
-// FloatsEqual checks if 2 floats are equal
-func FloatsEqual(val1 float64, val2 float64) bool {
-	EPSILLON := .00001
+// FloatEqual checks if 2 floats are equal
+func FloatEqual(val1 float64, val2 float64) bool {
+	const EPSILLON = .00001
 	return math.Abs(val1-val2) < EPSILLON
 }
 
 // Equal checks if 2 tuples are equal
 func Equal(tup1 TupleStruct, tup2 TupleStruct) bool {
-	val1 := reflect.ValueOf(tup1)
-	typeOfVal1 := val1.Type()
-
-	for i := 0; i < val1.NumField(); i++ {
-		field := typeOfVal1.Field(i).Name
-		if !FloatsEqual(tup1[field], tup2[field]) {
-			return false
-		}
+	if FloatEqual(tup1.X, tup2.X) && FloatEqual(tup1.Y, tup2.Y) && FloatEqual(tup1.Z, tup2.Z) && FloatEqual(tup1.W, tup2.W) {
+		return true
 	}
-	return true
+	return false
 }
 
-func AddTuples(tup1 TupleStruct, tup2 TupleStruct) TupleStruct {
-	x := tup1.x + tup2.x
-	y := tup1.y + tup2.y
-	z := tup1.z + tup2.z
-	w := tup1.w + tup2.w
+// Add adds 2 tuples together
+func Add(tup1 TupleStruct, tup2 TupleStruct) TupleStruct {
+	return Tuple(
+		tup1.X+tup2.X,
+		tup1.Y+tup2.Y,
+		tup1.Z+tup2.Z,
+		tup1.W+tup2.W,
+	)
+}
 
-	return Tuple(x, y, z, w)
+// Subtract subracts 2 tuples
+func Subtract(tup1 TupleStruct, tup2 TupleStruct) TupleStruct {
+	return Tuple(
+		tup1.X-tup2.X,
+		tup1.Y-tup2.Y,
+		tup1.Z-tup2.Z,
+		tup1.W-tup2.W,
+	)
+}
+
+// Negate negates a tuple
+func Negate(tup TupleStruct) TupleStruct {
+	return Tuple(
+		-tup.X,
+		-tup.Y,
+		-tup.Z,
+		-tup.W,
+	)
+}
+
+func Multiply(tup TupleStruct, val float64) TupleStruct {
+	return Tuple(
+		tup.X*val,
+		tup.Y*val,
+		tup.Z*val,
+		tup.W*val,
+	)
+}
+
+func Divide(tup TupleStruct, val float64) TupleStruct {
+	return Tuple(
+		tup.X/val,
+		tup.Y/val,
+		tup.Z/val,
+		tup.W/val,
+	)
+}
+
+func Magnitude(tup TupleStruct) float64 {
+	squareSum := math.Pow(tup.X, 2) + math.Pow(tup.Y, 2) + math.Pow(tup.Z, 2) + math.Pow(tup.W, 2)
+	return math.Sqrt(squareSum)
 }
