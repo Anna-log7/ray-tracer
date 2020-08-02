@@ -71,6 +71,7 @@ func Negate(tup TupleStruct) TupleStruct {
 	)
 }
 
+// Multiply multiplies a tuple by a scalar
 func Multiply(tup TupleStruct, val float64) TupleStruct {
 	return Tuple(
 		tup.X*val,
@@ -80,6 +81,7 @@ func Multiply(tup TupleStruct, val float64) TupleStruct {
 	)
 }
 
+// Divide divides a tuple by a scalar
 func Divide(tup TupleStruct, val float64) TupleStruct {
 	return Tuple(
 		tup.X/val,
@@ -89,7 +91,36 @@ func Divide(tup TupleStruct, val float64) TupleStruct {
 	)
 }
 
+// Magnitude calculates the magnitude of a tuple
 func Magnitude(tup TupleStruct) float64 {
 	squareSum := math.Pow(tup.X, 2) + math.Pow(tup.Y, 2) + math.Pow(tup.Z, 2) + math.Pow(tup.W, 2)
 	return math.Sqrt(squareSum)
+}
+
+// Normalize normalizes a tuple
+func Normalize(tup TupleStruct) TupleStruct {
+	magnitude := Magnitude(tup)
+
+	return Tuple(
+		tup.X/magnitude,
+		tup.Y/magnitude,
+		tup.Z/magnitude,
+		tup.W/magnitude,
+	)
+}
+
+// Dot computes the dot product of 2 tuples
+func Dot(tup1 TupleStruct, tup2 TupleStruct) float64 {
+	return (tup1.X*tup2.X +
+		tup1.Y*tup2.Y +
+		tup1.Z*tup2.Z +
+		tup1.W*tup2.W)
+}
+
+// Cross returns a cross product vector of 2 vectors
+func Cross(vector1 TupleStruct, vector2 TupleStruct) TupleStruct {
+	return Vector(
+		vector1.Y*vector2.Z-vector1.Z*vector2.Y,
+		vector1.Z*vector2.X-vector1.X*vector2.Z,
+		vector1.X*vector2.Y-vector1.Y*vector2.X)
 }

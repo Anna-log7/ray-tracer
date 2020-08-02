@@ -130,3 +130,47 @@ func TestMagniture(t *testing.T) {
 		t.Errorf(vectorError, vector5)
 	}
 }
+
+func TestNormalization(t *testing.T) {
+	const normalizationError = "Normalization error %v"
+	vector1 := Vector(4, 0, 0)
+
+	if !Equal(Normalize(vector1), Vector(1, 0, 0)) {
+		t.Errorf(normalizationError, vector1)
+	}
+
+	vector2 := Vector(1, 2, 3)
+
+	if !Equal(Normalize(vector2), Vector(1/math.Sqrt(14), 2/math.Sqrt(14), 3/math.Sqrt(14))) {
+		t.Errorf(normalizationError, vector2)
+	}
+
+	norm := Normalize(vector2)
+
+	if Magnitude(norm) != 1 {
+		t.Errorf("Magnitude of normalized vector error %v %v", vector2, norm)
+	}
+}
+
+func TestDotProduct(t *testing.T) {
+	vector1 := Vector(1, 2, 3)
+	vector2 := Vector(2, 3, 4)
+
+	if Dot(vector1, vector2) != 20 {
+		t.Errorf("Dot product of vector error %v %v", vector1, vector2)
+	}
+}
+
+func TestCrossProduct(t *testing.T) {
+	const crossError = "Cross product of vector error %v %v"
+	vector1 := Vector(1, 2, 3)
+	vector2 := Vector(2, 3, 4)
+
+	if !Equal(Cross(vector1, vector2), Vector(-1, 2, -1)) {
+		t.Errorf(crossError, vector1, vector2)
+	}
+
+	if !Equal(Cross(vector2, vector1), Vector(1, -2, 1)) {
+		t.Errorf(crossError, vector1, vector2)
+	}
+}
