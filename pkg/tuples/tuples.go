@@ -4,27 +4,27 @@ import (
 	"math"
 )
 
-// TupleStruct data type
-type TupleStruct struct {
+// Tuple data type
+type Tuple struct {
 	X float64
 	Y float64
 	Z float64
 	W float64
 }
 
-// Tuple returns tuple
-func Tuple(x float64, y float64, z float64, w float64) TupleStruct {
-	return TupleStruct{x, y, z, w}
+// NewTuple returns tuple
+func NewTuple(x float64, y float64, z float64, w float64) Tuple {
+	return Tuple{x, y, z, w}
 }
 
-// Point returns tuple with w = 1
-func Point(x float64, y float64, z float64) TupleStruct {
-	return TupleStruct{x, y, z, 1}
+// NewPoint returns tuple with w = 1
+func NewPoint(x float64, y float64, z float64) Tuple {
+	return Tuple{x, y, z, 1}
 }
 
-// Vector returns tuple with w = 0
-func Vector(x float64, y float64, z float64) TupleStruct {
-	return TupleStruct{x, y, z, 0}
+// NewVector returns tuple with w = 0
+func NewVector(x float64, y float64, z float64) Tuple {
+	return Tuple{x, y, z, 0}
 }
 
 // FloatEqual checks if 2 floats are equal
@@ -34,7 +34,7 @@ func FloatEqual(val1 float64, val2 float64) bool {
 }
 
 // Equal checks if 2 tuples are equal
-func Equal(tup1 TupleStruct, tup2 TupleStruct) bool {
+func Equal(tup1 Tuple, tup2 Tuple) bool {
 	if FloatEqual(tup1.X, tup2.X) && FloatEqual(tup1.Y, tup2.Y) && FloatEqual(tup1.Z, tup2.Z) && FloatEqual(tup1.W, tup2.W) {
 		return true
 	}
@@ -42,8 +42,8 @@ func Equal(tup1 TupleStruct, tup2 TupleStruct) bool {
 }
 
 // Add adds 2 tuples together
-func Add(tup1 TupleStruct, tup2 TupleStruct) TupleStruct {
-	return Tuple(
+func Add(tup1 Tuple, tup2 Tuple) Tuple {
+	return NewTuple(
 		tup1.X+tup2.X,
 		tup1.Y+tup2.Y,
 		tup1.Z+tup2.Z,
@@ -52,8 +52,8 @@ func Add(tup1 TupleStruct, tup2 TupleStruct) TupleStruct {
 }
 
 // Subtract subracts 2 tuples
-func Subtract(tup1 TupleStruct, tup2 TupleStruct) TupleStruct {
-	return Tuple(
+func Subtract(tup1 Tuple, tup2 Tuple) Tuple {
+	return NewTuple(
 		tup1.X-tup2.X,
 		tup1.Y-tup2.Y,
 		tup1.Z-tup2.Z,
@@ -62,8 +62,8 @@ func Subtract(tup1 TupleStruct, tup2 TupleStruct) TupleStruct {
 }
 
 // Negate negates a tuple
-func Negate(tup TupleStruct) TupleStruct {
-	return Tuple(
+func Negate(tup Tuple) Tuple {
+	return NewTuple(
 		-tup.X,
 		-tup.Y,
 		-tup.Z,
@@ -72,8 +72,8 @@ func Negate(tup TupleStruct) TupleStruct {
 }
 
 // Multiply multiplies a tuple by a scalar
-func Multiply(tup TupleStruct, val float64) TupleStruct {
-	return Tuple(
+func Multiply(tup Tuple, val float64) Tuple {
+	return NewTuple(
 		tup.X*val,
 		tup.Y*val,
 		tup.Z*val,
@@ -82,8 +82,8 @@ func Multiply(tup TupleStruct, val float64) TupleStruct {
 }
 
 // Divide divides a tuple by a scalar
-func Divide(tup TupleStruct, val float64) TupleStruct {
-	return Tuple(
+func Divide(tup Tuple, val float64) Tuple {
+	return NewTuple(
 		tup.X/val,
 		tup.Y/val,
 		tup.Z/val,
@@ -92,16 +92,16 @@ func Divide(tup TupleStruct, val float64) TupleStruct {
 }
 
 // Magnitude calculates the magnitude of a tuple
-func Magnitude(tup TupleStruct) float64 {
+func Magnitude(tup Tuple) float64 {
 	squareSum := math.Pow(tup.X, 2) + math.Pow(tup.Y, 2) + math.Pow(tup.Z, 2) + math.Pow(tup.W, 2)
 	return math.Sqrt(squareSum)
 }
 
 // Normalize normalizes a tuple
-func Normalize(tup TupleStruct) TupleStruct {
+func Normalize(tup Tuple) Tuple {
 	magnitude := Magnitude(tup)
 
-	return Tuple(
+	return NewTuple(
 		tup.X/magnitude,
 		tup.Y/magnitude,
 		tup.Z/magnitude,
@@ -110,7 +110,7 @@ func Normalize(tup TupleStruct) TupleStruct {
 }
 
 // Dot computes the dot product of 2 tuples
-func Dot(tup1 TupleStruct, tup2 TupleStruct) float64 {
+func Dot(tup1 Tuple, tup2 Tuple) float64 {
 	return (tup1.X*tup2.X +
 		tup1.Y*tup2.Y +
 		tup1.Z*tup2.Z +
@@ -118,8 +118,8 @@ func Dot(tup1 TupleStruct, tup2 TupleStruct) float64 {
 }
 
 // Cross returns a cross product vector of 2 vectors
-func Cross(vector1 TupleStruct, vector2 TupleStruct) TupleStruct {
-	return Vector(
+func Cross(vector1 Tuple, vector2 Tuple) Tuple {
+	return NewVector(
 		vector1.Y*vector2.Z-vector1.Z*vector2.Y,
 		vector1.Z*vector2.X-vector1.X*vector2.Z,
 		vector1.X*vector2.Y-vector1.Y*vector2.X)
