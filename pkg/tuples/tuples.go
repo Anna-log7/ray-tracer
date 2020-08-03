@@ -109,16 +109,16 @@ func Normalize(tup Tuple) Tuple {
 	)
 }
 
-// Dot computes the dot product of 2 tuples
-func Dot(tup1 Tuple, tup2 Tuple) float64 {
+// DotProduct computes the dot product of 2 tuples
+func DotProduct(tup1 Tuple, tup2 Tuple) float64 {
 	return (tup1.X*tup2.X +
 		tup1.Y*tup2.Y +
 		tup1.Z*tup2.Z +
 		tup1.W*tup2.W)
 }
 
-// Cross returns a cross product vector of 2 vectors
-func Cross(vector1 Tuple, vector2 Tuple) Tuple {
+// CrossProduct returns a cross product vector of 2 vectors
+func CrossProduct(vector1 Tuple, vector2 Tuple) Tuple {
 	return NewVector(
 		vector1.Y*vector2.Z-vector1.Z*vector2.Y,
 		vector1.Z*vector2.X-vector1.X*vector2.Z,

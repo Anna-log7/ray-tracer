@@ -156,7 +156,7 @@ func TestDotProduct(t *testing.T) {
 	vector1 := NewVector(1, 2, 3)
 	vector2 := NewVector(2, 3, 4)
 
-	if Dot(vector1, vector2) != 20 {
+	if DotProduct(vector1, vector2) != 20 {
 		t.Errorf("Dot product of vector error %v %v", vector1, vector2)
 	}
 }
@@ -166,11 +166,11 @@ func TestCrossProduct(t *testing.T) {
 	vector1 := NewVector(1, 2, 3)
 	vector2 := NewVector(2, 3, 4)
 
-	if !Equal(Cross(vector1, vector2), NewVector(-1, 2, -1)) {
+	if !Equal(CrossProduct(vector1, vector2), NewVector(-1, 2, -1)) {
 		t.Errorf(crossError, vector1, vector2)
 	}
 
-	if !Equal(Cross(vector2, vector1), NewVector(1, -2, 1)) {
+	if !Equal(CrossProduct(vector2, vector1), NewVector(1, -2, 1)) {
 		t.Errorf(crossError, vector1, vector2)
 	}
 }
