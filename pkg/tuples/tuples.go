@@ -62,7 +62,7 @@ func Subtract(tup1 Tuple, tup2 Tuple) Tuple {
 }
 
 // Negate negates a tuple
-func Negate(tup Tuple) Tuple {
+func (tup Tuple) Negate() Tuple {
 	return NewTuple(
 		-tup.X,
 		-tup.Y,
@@ -92,14 +92,14 @@ func Divide(tup Tuple, val float64) Tuple {
 }
 
 // Magnitude calculates the magnitude of a tuple
-func Magnitude(tup Tuple) float64 {
+func (tup Tuple) Magnitude() float64 {
 	squareSum := math.Pow(tup.X, 2) + math.Pow(tup.Y, 2) + math.Pow(tup.Z, 2) + math.Pow(tup.W, 2)
 	return math.Sqrt(squareSum)
 }
 
 // Normalize normalizes a tuple
-func Normalize(tup Tuple) Tuple {
-	magnitude := Magnitude(tup)
+func (tup Tuple) Normalize() Tuple {
+	magnitude := tup.Magnitude()
 
 	return NewTuple(
 		tup.X/magnitude,
