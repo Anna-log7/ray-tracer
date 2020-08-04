@@ -1,6 +1,11 @@
 package colors
 
-import "ray-tracer/pkg/tuples"
+import (
+	"fmt"
+	"math"
+	"ray-tracer/internal/config"
+	"ray-tracer/pkg/tuples"
+)
 
 // Color struct
 type Color struct {
@@ -10,6 +15,35 @@ type Color struct {
 // NewColor creates a new color struct
 func NewColor(red float64, green float64, blue float64) Color {
 	return Color{red, green, blue}
+}
+
+// ToString returns the color as an adjusted string to max(ColorRange)
+func (color Color) ToString() string {
+	adjustedColor := Multiply(color, config.ColorRange)
+	red := int(math.Ceil(adjustedColor.Red))
+	green := int(math.Ceil(adjustedColor.Green))
+	blue := int(math.Ceil(adjustedColor.Blue))
+
+	if red > config.ColorRange {
+		red = config.ColorRange
+	}
+	if red < 0 {
+		red = 0
+	}
+	if green > config.ColorRange {
+		green = config.ColorRange
+	}
+	if green < 0 {
+		green = 0
+	}
+	if blue > config.ColorRange {
+		blue = config.ColorRange
+	}
+	if blue < 0 {
+		blue = 0
+	}
+
+	return fmt.Sprintf("%d %d %d", red, green, blue)
 }
 
 // Equal checks if 2 colors are equal
