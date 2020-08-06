@@ -1,7 +1,6 @@
 package canvas
 
 import (
-	"fmt"
 	"ray-tracer/pkg/colors"
 	"strings"
 	"testing"
@@ -49,11 +48,7 @@ func TestToPpmHeaders(t *testing.T) {
 5 3
 255`
 	ppmByLines := strings.Split(ppm, "\n")
-
-	headerLines := make([]string, 3)
-	for i := 0; i < 3; i++ {
-		headerLines[i] = ppmByLines[i]
-	}
+	headerLines := ppmByLines[0:3]
 	result := strings.Join(headerLines, "\n")
 
 	if expected != result {
@@ -74,15 +69,12 @@ func TestCanvasToPpmPixels(t *testing.T) {
 
 	expected := `255 0 0 0 0 0 0 0 0 0 0 0 0 0 0
 0 0 0 0 0 0 0 128 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 255`
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 255
+`
 
 	ppmByLines := strings.Split(ppm, "\n")
-
-	pixelLines := make([]string, 3)
-	for i, j := 3, 0; i < 6; i, j = i+1, j+1 {
-		pixelLines[j] = ppmByLines[i]
-	}
-	result := strings.Join(pixelLines, "\n")
+	contentLines := ppmByLines[3:7]
+	result := strings.Join(contentLines, "\n")
 
 	if expected != result {
 		t.Errorf("PPM pixel creation error Got %s Expected %s", result, expected)
@@ -104,14 +96,11 @@ func TestPpmLineLength(t *testing.T) {
 	expected := `255 204 153 255 204 153 255 204 153 255 204 153 255 204 153 255 204
 153 255 204 153 255 204 153 255 204 153 255 204 153
 255 204 153 255 204 153 255 204 153 255 204 153 255 204 153 255 204
-153 255 204 153 255 204 153 255 204 153 255 204 153`
+153 255 204 153 255 204 153 255 204 153 255 204 153
+`
 
 	ppmByLines := strings.Split(ppm, "\n")
-
-	pixelLines := make([]string, 4)
-	for i, j := 3, 0; i < 7; i, j = i+1, j+1 {
-		pixelLines[j] = ppmByLines[i]
-	}
+	pixelLines := ppmByLines[3:8]
 	result := strings.Join(pixelLines, "\n")
 
 	if expected != result {
@@ -123,8 +112,8 @@ func TestPpmTerminateNewLine(t *testing.T) {
 	canvas := NewCanvas(5, 3)
 
 	ppm := canvas.ToPpm()
-	expected := "\n"
-	result := fmt.Sprintf("%b%b", ppm[len(ppm)-1], ppm[len(ppm)-2])
+	expected := '\n'
+	result := rune(ppm[len(ppm)-1])
 
 	if expected != result {
 		t.Errorf("PPM not terminated with newline error")

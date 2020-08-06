@@ -2,6 +2,7 @@ package canvas
 
 import (
 	"fmt"
+	"math"
 	"ray-tracer/internal/config"
 	"ray-tracer/pkg/colors"
 	"strings"
@@ -33,6 +34,24 @@ func WritePixel(canvas *Canvas, x int, y int, color colors.Color) {
 	canvas.Pixels[x][y] = color
 }
 
+func adjustColor(colorValue float64, scalar int) int {
+	scaledColor := int(math.Round(colorValue * float64(scalar)))
+	switch {
+	case scaledColor < 0:
+		scaledColor = 0
+	case scaledColor > scalar:
+		scaledColor = scalar
+	}
+	return scaledColor
+}
+
+func isLineSpaceAvailable(line string, addToLine string) bool {
+	if len(line)+2+len(addToLine) <= 70 {
+		return true
+	}
+	return false
+}
+
 // ToPpm returns the string representation of canvas pixels in ppm format
 func (canvas Canvas) ToPpm() string {
 	header := fmt.Sprintf("%s\n%d %d\n%d\n", config.PpmVersion, canvas.Width, canvas.Height, config.ColorRange)
@@ -41,21 +60,46 @@ func (canvas Canvas) ToPpm() string {
 	offset := 0
 	for y := 0; y < canvas.Height; y++ {
 		for x := 0; x < canvas.Width; x++ {
-			if len(content[y+offset])+len(PixelAt(canvas, x, y).ToString())+2 > 70 {
+			pixel := PixelAt(canvas, x, y)
+			red := fmt.Sprintf("%d", adjustColor(pixel.Red, config.ColorRange))
+			green := fmt.Sprintf("%d", adjustColor(pixel.Green, config.ColorRange))
+			blue := fmt.Sprintf("%d", adjustColor(pixel.Blue, config.ColorRange))
+
+			if isLineSpaceAvailable(content[y+offset], red) {
+				if content[y+offset] != "" {
+					content[y+offset] += " "
+				}
+
+				content[y+offset] += red
+			} else {
+				content = append(content, red)
 				offset++
-				content = append(content, "")
 			}
-			if x != 0 {
-				content[y+offset] += " "
+			if isLineSpaceAvailable(content[y+offset], green) {
+				if content[y+offset] != "" {
+					content[y+offset] += " "
+				}
+
+				content[y+offset] += green
+			} else {
+				content = append(content, green)
+				offset++
 			}
-			content[y+offset] += fmt.Sprintf("%s", PixelAt(canvas, x, y).ToString())
+			if isLineSpaceAvailable(content[y+offset], blue) {
+				if content[y+offset] != "" {
+					content[y+offset] += " "
+				}
+
+				content[y+offset] += blue
+			} else {
+				content = append(content, blue)
+				offset++
+			}
 		}
-		if y != canvas.Height-1 {
-			content = append(content, "")
-		}
+		content = append(content, "")
 	}
 
 	joinedContent := strings.Join(content, "\n")
-	// joinedContent += "\n"
+	joinedContent += "\n"
 	return header + joinedContent
 }
